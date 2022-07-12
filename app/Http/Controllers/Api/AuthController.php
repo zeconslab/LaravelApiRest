@@ -102,22 +102,18 @@ class AuthController extends Controller
         
     }
 
+    /**
+     * Metodo para cerrar sesion.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return response
+     */
     public function logout(Request $request)
     {
         JWTAuth::invalidate(JWTAuth::parseToken($request->token));
         return response()->json([
             'status' => 200,
             'message' => 'Session cerrada con exito'
-        ]);
-    }
-
-
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 
