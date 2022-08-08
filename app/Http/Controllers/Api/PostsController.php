@@ -26,10 +26,20 @@ class PostsController extends Controller
             }
         }
 
-        return response()->json([
-            'success' => true,
-            'posts' => $posts
-        ], 200);
+
+        if ($posts->count() <= 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existen registros'
+            ],401);
+        }
+        else {
+            return response()->json([
+                'status' => true,
+                'posts' => $posts
+            ], 200);
+        }
+
     }
 
 
@@ -55,7 +65,7 @@ class PostsController extends Controller
         $postCreate->save();
         $postCreate->user;
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => '¡Publicacion creada con exito!',
             'post' => $postCreate
         ]);
@@ -73,7 +83,7 @@ class PostsController extends Controller
         $postUpdate = Post::find($request->id);
         if(Auth::user()->id != $request->id){
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'No puedes realizar esta accion'
             ], 401);
         }
@@ -81,7 +91,7 @@ class PostsController extends Controller
         $postUpdate->desc = $request->desc;
         $postUpdate->update();
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => '¡Publicacion actualizada con exito!'
         ]);
     }
@@ -97,7 +107,7 @@ class PostsController extends Controller
         $postDelete = Post::find($request->id);
         if(Auth::user()->id != $request->id){
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'No puedes realizar esta accion'
             ], 401);
         }
@@ -109,7 +119,7 @@ class PostsController extends Controller
         $postDelete->delete();
         $postDelete->update();
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => '¡Publicacion eliminada con exito!'
         ]);
 

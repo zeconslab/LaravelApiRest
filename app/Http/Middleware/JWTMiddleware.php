@@ -28,18 +28,19 @@ class JWTMiddleware
             return $next($request);
         }
         catch (TokenExpiredException $e){
-            $message = "Token expirado ";
+            $message = "Token expirado";
         }
         catch (TokenInvalidException $e){
-            $message = "Token invalido ";
+            $message = "Token invalido";
         }
         catch (JWTException $e){
-            $message = "Token erroneo ";
+            $message = "Token erroneo";
         }
 
         return response()->json([
-            'success' => false,
+            'code' => 403,
+            'status' => false,
             'message' => $message
-        ], 400 );
+        ], 403 );
     }
 }

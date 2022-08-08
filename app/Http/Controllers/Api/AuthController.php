@@ -39,14 +39,13 @@ class AuthController extends Controller
             {
                 return response()->json([
                     'error' => 'Unauthorized',
-                    'status' => 401,
+                    'status' => false,
                     'message' => 'Contraseña o Usuario incorrecto'
                 ],401);
             }
             else {
                 return response()->json([
-                    'success' => 'true',
-                    'status' => 200,
+                    'status' => true,
                     'access_token' => $token,
                     'token_type' => 'bearer',
                     'expires_in' => auth()->factory()->getTTL() * 60,
@@ -112,7 +111,7 @@ class AuthController extends Controller
     {
         JWTAuth::invalidate(JWTAuth::parseToken($request->token));
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Session cerrada con exito'
         ]);
     }
