@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Lcobucci\JWT\Exception;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+
 class AuthController extends Controller
 {
 
@@ -25,12 +26,35 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' =>['login', 'register']]);
     }
 
-    /**
-     * Valida la peticcion http que coincida con el usuario registrad en la base de datos.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return response
-     */
+
+/**
+ * @OA\Post(
+ *     operationId="vehicleStore",
+ *     tags={"vehicle"},
+ *     summary="Store Vehicle - with components and trips (damages & loads)",
+ *     description="Store vehicle",
+ *     path="/vehicle",
+ *     security={{"bearerAuth":{}}},
+ *
+ *     @OA\RequestBody(
+ *       @OA\JsonContent(
+ *               allOf={
+ *                      @OA\Schema(ref="#/components/schemas/APIResponse"),
+ *                      @OA\Schema(ref="#/components/schemas/CustomRequestBody")
+ *              },
+ *          )
+ *      ),
+ *
+ *     @OA\Response(
+ *         response="200",
+ *         description="Successful",
+ *          @OA\JsonContent()
+ *      ),
+ * )
+ *
+ * @return JsonResponse
+ *
+ */
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);

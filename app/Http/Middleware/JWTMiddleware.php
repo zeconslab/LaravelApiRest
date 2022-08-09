@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -21,6 +22,7 @@ class JWTMiddleware
     public function handle(Request $request, Closure $next)
     {
         $message = '';
+        $code = '';
 
         try
         {
@@ -29,6 +31,7 @@ class JWTMiddleware
         }
         catch (TokenExpiredException $e){
             $message = "Token expirado";
+            $code = response()->setStatusCode(Response::HTTP_ACCEPTED)->get();
         }
         catch (TokenInvalidException $e){
             $message = "Token invalido";
@@ -38,9 +41,9 @@ class JWTMiddleware
         }
 
         return response()->json([
-            'code' => 403,
+            'code' => $code,
             'status' => false,
             'message' => $message
-        ], 403 );
+        ])->setStatusCode(Response::HTTP_UNAUTHORIZED);
     }
 }

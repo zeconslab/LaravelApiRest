@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
 
 class CommentsController extends Controller
 {
@@ -56,7 +58,7 @@ class CommentsController extends Controller
             return response()->json([
                 'status' => 200,
                 'comments' => $commentsRead
-            ],200);
+            ])->setStatusCode(Response::HTTP_ACCEPTED);
         }
     }
 
@@ -91,9 +93,8 @@ class CommentsController extends Controller
         return response()->json([
             'status' => true,
             'message' => "¡Comentado agregado exitosamente!",
-            'code' => 201,
             'comment' => $commentCreate
-        ],201);
+        ])->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function update(Request $request){
