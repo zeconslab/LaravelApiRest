@@ -90,39 +90,14 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $rules =[
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8'
-        ];
-
-        $messages = [
-            'name.required' => 'El :attribute es un campo requerido',
-            'email.required' => 'El :attribute es un campo requerido',
-            'password.required' => 'La :attribute es un campo requerido'
-        ];
-
-        $attributes = [
-            'email' => 'Correo electronico',
-            'name' => 'Nombre',
-            'password' => 'Contraseña'
-        ];
-
-            $validator = Validator::make($request->all(), $rules , $messages, $attributes);
-    
-            if ($validator->fails()) {
-                return response()->json($validator->errors()->toJson(), 422);
-            }
-
+        
             $passecrypted = Hash::make($request->password);
 
             $userNew = new User();
-            $userNew->name = $request->name;
             $userNew->email = $request->email;
             $userNew->password = $passecrypted;
             $userNew->save();
             return $this->login($request);
-        
     }
 
     /**
