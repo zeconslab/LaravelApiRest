@@ -114,4 +114,25 @@ class AuthController extends Controller
         ]);
     }
 
+    public function profile(Request $request) {
+        $userProfile = User::find(Auth::user()->id);
+        $userProfile->name = $request->name;
+        $userProfile->lastname = $request->lastname;
+        $photo = '';
+
+        if ($request->photo != '') {
+            $photo = time().'.jpg';
+            file_put_contents('storage/profiles/'.$photo, base64_decode($request->photo));
+            $userProfile->photo = $photo;
+        }
+
+        $userProfile->update();
+
+        return response()->json([
+            'status' => true,
+            'photo' => $photo
+        ], 200);
+        
+    }
+
 }

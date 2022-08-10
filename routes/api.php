@@ -37,5 +37,7 @@ Route::middleware([JWTMiddleware::class])->group(function() {
     Route::post('comment/delete', [CommentsController::class, 'delete']);
 
     Route::post('post/like', [LikesController:: class, 'index']);
+
+    Route::post('profile', [AuthController::class, 'profile']);
 });
 
