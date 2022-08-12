@@ -38,7 +38,7 @@ class PostsController extends Controller
             return response()->json([
                 'status' => true,
                 'posts' => $posts
-            ], 200);
+            ],200);
         }
 
     }
