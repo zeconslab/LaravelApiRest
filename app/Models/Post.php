@@ -12,7 +12,7 @@ class Post extends Model
     protected $fillable = ['desc','photo'];
 
     protected $casts = [
-        'created_at' => 'datetime:d-m H:i A',
+        'created_at' => 'datetime:d-M H:i A',
     ];
 
     public function user()
